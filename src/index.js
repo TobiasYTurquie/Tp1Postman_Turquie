@@ -14,10 +14,14 @@ app.get('/', (req, res) => {                // EndPoint "/"
     res.send('Ya estoy respondiendo!');
 })
 
-app.get('/saludar', (req, res) => {             // EndPoint "/saludar"
-   res.send('Hello World!');
+app.get('/saludar/:nombre', (req, res) => {             // EndPoint "/saludar"
+   res.send(`Hola ${req.params.nombre}`);
 })
-
+app.get('/validarfecha/:año/:mes/:dia', (req, res) => {
+   res.send(`Tu Fecha de Nacimiento es: ${req.params.año}/${req.params.mes}/${req.params.dia}`);
+   const validateDate = (año) => isNaN(Date.parse(año))
+   if(!validateDate)res.status(404).send
+})
 // Inicio el Server y lo pongo a escuchar.
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
