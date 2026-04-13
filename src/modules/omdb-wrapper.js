@@ -6,7 +6,7 @@ import axios from "axios";
 const APIKEY = "e9d7420b"
 
 
-const OMDBSearchByPage = async (searchText, page = 1) => {
+const OMDBSearchByPage = async (searchText, page) => {
     const requestString = `http://www.omdbapi.com/?apikey=e9d7420b&s=${searchText}&page=${page}`;
     const apiResponse = await axios.get(requestString);
     let returnObject = {
