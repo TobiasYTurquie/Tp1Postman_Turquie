@@ -1,4 +1,8 @@
 import Alumno from "./models/alumno.js"
+const alumnosArray = [];
+alumnosArray.push(new Alumno("Esteban Dido",   "22888444", 20));
+alumnosArray.push(new Alumno("Matias Queroso", "28946255", 51));
+alumnosArray.push(new Alumno("Elba Calao",     "32623391", 18));
 import { sumar, restar, multiplicar, dividir } from "./modules/matematica.js"
 import { OMDBSearchByPage, OMDBSearchComplete, OMDBGetByImdbID } from "./modules/omdb-wrapper.js"
 import express from "express"
@@ -47,6 +51,7 @@ app.get('/matematica/multiplicar', (req, res) => {
     const n2 = parseInt(req.query.n2)
     res.status(200).send(String(multiplicar(n1, n2)))
 })
+
 app.get('/omdb/searchbypage', async (req, res) => {
   const search = req.query.search;
   const p      = req.query.p;
@@ -70,7 +75,19 @@ app.get('/omdb/searchcomplete', async (req, res) => {
     res.status(500).send({ respuesta: false, cantidadTotal: 0, datos: [] });
   }
 })
-
+app.get('/omdb/getbyomdbid', async (req, res) => {
+  const Id = req.query.Id;
+  try{
+    const resultado = await OMDBgetbyomdbid(Id)
+    res.status(200).send(resultado)
+  } catch (ex) {
+    console.log(ex.message);
+    res.status(500).send({ respuesta: false, cantidadTotal: 0, datos: [] });
+  }
+})
+app.get('/alumnos', (req, res) => {             // EndPoint "/saludar"
+    res.send(`${alumnosArray}`)
+})
 // Inicio el Server y lo pongo a escuchar.
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
